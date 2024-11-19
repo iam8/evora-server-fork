@@ -4,7 +4,7 @@ Andor wrapper for Evora and Flask server.
 
 ## Installation
 
-`evora-server` requires the proprietary Andor libraries to be installed in `/usr/local/lib`. The library can be used for debugging without the Andor libraries, but they are necessary to run the actual camera.
+`evora-server` requires the proprietary Andor libraries to be installed in `/usr/local/lib`. The library can be used for debugging without the Andor libraries, but they are necessary to run the actual camera. 
 
 To install `evora-server`, clone the repository and run
 
@@ -141,5 +141,3 @@ and test that it works by navigating to [http://localhost/api/getTemperature](ht
 ## References
 
 - [Andor SDK documentation](https://neurophysics.ucsd.edu/Manuals/Andor%20Technology/Andor_Software_Development_Kit.pdf)
-
-Alex M was here, briefly.
