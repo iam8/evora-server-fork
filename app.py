@@ -55,6 +55,7 @@ if DEBUGGING:
     os.makedirs(os.path.dirname(DEFAULT_PATH), exist_ok=True)
 
 DUMMY_FILTER_POSITION = 0
+DUMMY_FOCUS_POSITION = 0
 
 ABORT_FLAG = False
 
@@ -210,8 +211,27 @@ def create_app(test_config=None):
     def route_testLongExposure():
         acquisition((1024, 1024), exposure_time=10)
         return str('Finished Acquiring after 10s')
+    
+    @app.route('/getFocus')
+    def route_getFocus():
+        return jsonify({'focus': DUMMY_FOCUS_POSITION if DEBUGGING else '0'})
 
-    @app.route("/capture", methods=["POST"])
+    @app.route('/setFocus', methods=['POST'])
+    def route_setFocus():
+        global DUMMY_FOCUS_POSITION
+        if request.method == 'POST':
+            req = request.get_json(force=True)
+            if DEBUGGING:
+                try:
+                    print(req['focus'])
+                    DUMMY_FOCUS_POSITION = int(req['focus'])
+                    return jsonify({'focus': DUMMY_FOCUS_POSITION})
+                except (TypeError, ValueError):
+                    return jsonify({'error': 'Invalid focus value. Must be a number.'})
+            return jsonify({'message': 'Done!'})
+        return jsonify({'error': 'Invalid request method.'})
+    
+    @app.route("/capture", methods=["POST"]) 
     async def route_capture():
         '''
         Attempts to take a picture with the camera. Uses the 'POST' method
